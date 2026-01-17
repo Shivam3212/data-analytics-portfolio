@@ -35,3 +35,11 @@ This dashboard enables leadership to:
 - Power Query
 - SQL (conceptual data preparation)
 - Business Intelligence best practices
+
+## Dashboard Preview
+
+![Dashboard Overview](dashboard_overview.png)
+![KPI](kpi_SS.png)
+![Trends](trend_SS.png)
+
+
