@@ -38,5 +38,49 @@ FROM sales_data
 GROUP BY sales_month
 ORDER BY sales_month;
 ```
+## Advanced SQL Analysis
+
+### Top Customers by Sales
+```sql
+SELECT
+    customer_id,
+    customer_name,
+    SUM(sales) AS total_sales
+FROM sales_data
+GROUP BY customer_id, customer_name
+ORDER BY total_sales DESC
+LIMIT 10;
+```
+### Profitability Classification
+```sql
+SELECT
+    category,
+    SUM(profit) AS total_profit,
+    CASE
+        WHEN SUM(profit) > 0 THEN 'Profitable'
+        ELSE 'Loss-Making'
+    END AS profit_status
+FROM sales_data
+GROUP BY category;
+```
+### Profit Margin by Category
+```sql
+SELECT
+    category,
+    SUM(profit) / NULLIF(SUM(sales), 0) AS profit_margin
+FROM sales_data
+GROUP BY category;
+```
+### Sales By Customer Segment 
+```sql
+SELECT
+    c.segment,
+    SUM(s.sales) AS total_sales
+FROM sales_data s
+JOIN customers c
+    ON s.customer_id = c.customer_id
+GROUP BY c.segment;
+```
+
 
 
