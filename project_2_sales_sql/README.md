@@ -81,6 +81,43 @@ JOIN customers c
     ON s.customer_id = c.customer_id
 GROUP BY c.segment;
 ```
+### Ranking of Customers by Sales
+```sql
+SELECT
+    customer_id,
+    customer_name,
+    SUM(sales) AS total_sales,
+    ROW_NUMBER() OVER (ORDER BY SUM(sales) DESC) AS sales_rank
+FROM sales_data
+GROUP BY customer_id, customer_name;
+```
+### Sales Accumulate Over Time
+```sql
+SELECT
+    order_date,
+    sales,
+    SUM(sales) OVER (
+        ORDER BY order_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS running_sales
+FROM sales_data;
+```
+### Growth over month
+```sql
+SELECT
+    sales_month,
+    monthly_sales,
+    monthly_sales -
+    LAG(monthly_sales) OVER (ORDER BY sales_month) AS mom_growth
+FROM (
+    SELECT
+        DATE_TRUNC('month', order_date) AS sales_month,
+        SUM(sales) AS monthly_sales
+    FROM sales_data
+    GROUP BY sales_month
+) t;
+```
+
 
 
 
